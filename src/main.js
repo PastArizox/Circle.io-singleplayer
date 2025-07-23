@@ -8,3 +8,11 @@ canvas.height = 900;
 
 const player = new Blob(450, 450, 40, 'blue');
 player.draw(canvasContext);
+
+const blobs = Array.from({ length: 20 }, () => {
+    const blobRadius = 10;
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    return new Blob(x, y, blobRadius, 'green');
+});
+blobs.forEach((blob) => blob.draw(canvasContext));
