@@ -16,4 +16,8 @@ export default class Player extends Blob {
             this.y += (dy / distance) * this.velocity;
         }
     }
+
+    getArea() {
+        return Math.PI * this.radius * this.radius;
+    }
 }

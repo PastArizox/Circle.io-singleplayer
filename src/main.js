@@ -40,10 +40,10 @@ function update() {
 }
 
 function centerPlayer() {
-    canvasContext.translate(
-        canvas.width / 2 - player.x,
-        canvas.height / 2 - player.y
-    );
+    const zoom = 40 / (Math.sqrt(player.getArea() / Math.PI) * 0.5);
+    canvasContext.translate(canvas.width / 2, canvas.height / 2);
+    canvasContext.scale(zoom, zoom);
+    canvasContext.translate(-player.x, -player.y);
 }
 
 setInterval(update, 1000 / 60);
