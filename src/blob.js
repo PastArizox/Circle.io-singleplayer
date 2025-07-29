@@ -15,4 +15,8 @@ export default class Blob {
         canvasContext.fill();
         canvasContext.stroke();
     }
+
+    getArea() {
+        return Math.PI * this.radius * this.radius;
+    }
 }

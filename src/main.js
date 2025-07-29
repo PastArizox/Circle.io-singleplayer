@@ -7,7 +7,7 @@ const canvasContext = canvas.getContext('2d');
 canvas.width = 900;
 canvas.height = 900;
 
-const blobs = Array.from({ length: 30 }, () => {
+const blobs = Array.from({ length: 100 }, () => {
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
     return new Blob(x, y, 10, 'green');
@@ -36,6 +36,8 @@ function update() {
     player.draw(canvasContext);
     player.moveTo(mouseX, mouseY, canvas);
 
+    checkCollisions();
+
     canvasContext.restore();
 }
 
@@ -44,6 +46,25 @@ function centerPlayer() {
     canvasContext.translate(canvas.width / 2, canvas.height / 2);
     canvasContext.scale(zoom, zoom);
     canvasContext.translate(-player.x, -player.y);
+}
+
+function checkCollisions() {
+    blobs.forEach((blob) => {
+        const dx = player.x - blob.x;
+        const dy = player.y - blob.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance < player.radius + blob.radius) {
+            const newPlayerArea = player.getArea() + blob.getArea();
+            player.radius = Math.sqrt(newPlayerArea / Math.PI);
+
+            const newVelocity =
+                player.velocity * (player.getArea() / newPlayerArea);
+            player.velocity = Math.max(newVelocity, 0.5);
+
+            blobs.splice(blobs.indexOf(blob), 1);
+        }
+    });
 }
 
 setInterval(update, 1000 / 60);
