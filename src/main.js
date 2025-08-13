@@ -29,11 +29,8 @@ function update() {
 
     centerPlayer();
 
-    blobs.forEach((blob) => {
-        blob.draw(canvasContext);
-    });
+    drawObjects();
 
-    player.draw(canvasContext);
     player.moveTo(mouseX, mouseY, canvas);
 
     checkCollisions();
@@ -46,6 +43,14 @@ function centerPlayer() {
     canvasContext.translate(canvas.width / 2, canvas.height / 2);
     canvasContext.scale(zoom, zoom);
     canvasContext.translate(-player.x, -player.y);
+}
+
+function drawObjects() {
+    blobs.forEach((blob) => {
+        blob.draw(canvasContext);
+    });
+
+    player.draw(canvasContext);
 }
 
 function checkCollisions() {
