@@ -3,7 +3,7 @@ import Blob from './blob.js';
 export default class Player extends Blob {
     constructor(x, y, radius, color) {
         super(x, y, radius, color);
-        this.velocity = 2;
+        this.velocity = 1.5;
     }
 
     moveTo(targetX, targetY, canvas) {

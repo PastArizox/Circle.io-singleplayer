@@ -67,6 +67,21 @@ function drawObjects() {
 }
 
 function checkCollisions() {
+    checkBorderCollisions();
+    checkBlobCollisions();
+}
+
+function checkBorderCollisions() {
+    if (player.x < 0 || player.x > canvas.width) {
+        player.x = Math.max(0, Math.min(player.x, canvas.width));
+    }
+
+    if (player.y < 0 || player.y > canvas.height) {
+        player.y = Math.max(0, Math.min(player.y, canvas.height));
+    }
+}
+
+function checkBlobCollisions() {
     blobs.forEach((blob) => {
         const dx = player.x - blob.x;
         const dy = player.y - blob.y;
