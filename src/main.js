@@ -7,13 +7,13 @@ const canvasContext = canvas.getContext('2d');
 canvas.width = 900;
 canvas.height = 900;
 
-const blobs = Array.from({ length: 100 }, () => {
+const blobs = Array.from({ length: 30 }, () => {
     const x = Math.random() * canvas.width;
     const y = Math.random() * canvas.height;
-    return new Blob(x, y, 10, 'green');
+    return new Blob(x, y, Math.random() * 3 + 5, 'green');
 });
 
-const player = new Player(450, 450, 40, 'blue');
+const player = new Player(450, 450, 10, 'blue');
 var mouseX = 0;
 var mouseY = 0;
 
@@ -29,6 +29,8 @@ function update() {
 
     centerPlayer();
 
+    drawBorders();
+
     drawObjects();
 
     player.moveTo(mouseX, mouseY, canvas);
@@ -43,6 +45,17 @@ function centerPlayer() {
     canvasContext.translate(canvas.width / 2, canvas.height / 2);
     canvasContext.scale(zoom, zoom);
     canvasContext.translate(-player.x, -player.y);
+}
+
+function drawBorders() {
+    canvasContext.beginPath();
+    canvasContext.lineWidth = 2;
+    canvasContext.strokeStyle = 'black';
+    canvasContext.rect(0, 0, canvas.width, canvas.height);
+    canvasContext.fillStyle = 'white';
+    canvasContext.fill();
+    canvasContext.clip();
+    canvasContext.stroke();
 }
 
 function drawObjects() {
