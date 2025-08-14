@@ -7,11 +7,7 @@ const canvasContext = canvas.getContext('2d');
 canvas.width = 900;
 canvas.height = 900;
 
-const blobs = Array.from({ length: 30 }, () => {
-    const x = Math.random() * canvas.width;
-    const y = Math.random() * canvas.height;
-    return new Blob(x, y, Math.random() * 3 + 5, 'green');
-});
+const blobs = Array.from({ length: 40 }, createNewBlob);
 
 const player = new Player(450, 450, 10, 'blue');
 var mouseX = 0;
@@ -88,16 +84,28 @@ function checkBlobCollisions() {
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < player.radius + blob.radius) {
-            const newPlayerArea = player.getArea() + blob.getArea();
-            player.radius = Math.sqrt(newPlayerArea / Math.PI);
-
-            const newVelocity =
-                player.velocity * (player.getArea() / newPlayerArea);
-            player.velocity = Math.max(newVelocity, 0.5);
-
-            blobs.splice(blobs.indexOf(blob), 1);
+            absorbBlob(blob);
+            blobs.push(createNewBlob());
         }
     });
+}
+
+function absorbBlob(blob) {
+    const newPlayerArea = player.getArea() + blob.getArea();
+    player.radius = Math.sqrt(newPlayerArea / Math.PI);
+
+    const newVelocity = player.velocity * (player.getArea() / newPlayerArea);
+    player.velocity = Math.max(newVelocity, 0.5);
+
+    blobs.splice(blobs.indexOf(blob), 1);
+}
+
+function createNewBlob() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height;
+    const radius = Math.random() * 3 + 5;
+    const color = 'green';
+    return new Blob(x, y, radius, color);
 }
 
 setInterval(update, 1000 / 60);
